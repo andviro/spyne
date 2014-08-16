@@ -162,7 +162,7 @@ class TwistedHttpMethodContext(HttpMethodContext):
 
 
 class TwistedHttpTransport(HttpBase):
-    def __init__(self, app, chunked=False, max_content_length=2 * 1024 * 1024,
+    def __init__(self, app, chunked=False, max_content_length=None,  # @andviro
                                                          block_length=8 * 1024):
         super(TwistedHttpTransport, self).__init__(app, chunked=chunked,
                max_content_length=max_content_length, block_length=block_length)
@@ -289,7 +289,7 @@ class TwistedWebResource(Resource):
     Resource.
     """
 
-    def __init__(self, app, chunked=False, max_content_length=2 * 1024 * 1024,
+    def __init__(self, app, chunked=False, max_content_length=None,  # @andviro
                                            block_length=8 * 1024, prepath=None):
         Resource.__init__(self)
 

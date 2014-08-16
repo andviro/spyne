@@ -111,7 +111,7 @@ class HttpBase(ServerBase):
     transport = 'http://schemas.xmlsoap.org/soap/http'
 
     def __init__(self, app, chunked=False,
-                max_content_length=2 * 1024 * 1024,
+                max_content_length=None,  # @andviro
                 block_length=8 * 1024):
         super(HttpBase, self).__init__(app)
 

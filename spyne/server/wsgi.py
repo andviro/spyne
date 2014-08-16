@@ -203,7 +203,7 @@ class WsgiApplication(HttpBase):
             called both from success and error cases.
     """
 
-    def __init__(self, app, chunked=True, max_content_length=2 * 1024 * 1024,
+    def __init__(self, app, chunked=True, max_content_length=None,  # @andviro
                                                          block_length=8 * 1024):
         super(WsgiApplication, self).__init__(app, chunked, max_content_length,
                                                                    block_length)
@@ -452,13 +452,14 @@ class WsgiApplication(HttpBase):
     def __wsgi_input_to_iterable(self, http_env):
         istream = http_env.get('wsgi.input')
 
-        length = str(http_env.get('CONTENT_LENGTH', self.max_content_length))
+        length = str(http_env.get('CONTENT_LENGTH', ''))  # @andviro
         if len(length) == 0:
             length = 0
         else:
             length = int(length)
 
-        if length > self.max_content_length:
+        if (self.max_content_length is not None  # @andviro
+                and length > self.max_content_length):
             raise RequestTooLongError()
         bytes_read = 0
 

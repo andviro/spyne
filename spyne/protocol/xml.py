@@ -189,7 +189,8 @@ class XmlDocument(SubXmlBase):
     :param resolve_entities: replace entities by their text value. Off by
         default.
     :param huge_tree: disable security restrictions and support very deep trees
-        and very long text content. (only affects libxml2 2.7+) Off by default.
+        and very long text content. (only affects libxml2 2.7+)
+        On by default. // @andviro
     :param compact: use compact storage for short text content. On by default.
     """
 
@@ -213,7 +214,7 @@ class XmlDocument(SubXmlBase):
                 remove_pis=True,
                 strip_cdata=True,
                 resolve_entities=False,
-                huge_tree=False,
+                huge_tree=True,
                 compact=True,
             ):
         super(XmlDocument, self).__init__(app, validator)
