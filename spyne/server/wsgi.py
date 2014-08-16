@@ -203,7 +203,7 @@ class WsgiApplication(HttpBase):
             called both from success and error cases.
     """
 
-    def __init__(self, app, chunked=True, max_content_length=None,  # @andviro
+    def __init__(self, app, chunked=True, max_content_length=0,  # @andviro
                                                          block_length=8 * 1024):
         super(WsgiApplication, self).__init__(app, chunked, max_content_length,
                                                                    block_length)
@@ -458,7 +458,7 @@ class WsgiApplication(HttpBase):
         else:
             length = int(length)
 
-        if (self.max_content_length is not None  # @andviro
+        if (self.max_content_length  # @andviro
                 and length > self.max_content_length):
             raise RequestTooLongError()
         bytes_read = 0
@@ -466,7 +466,8 @@ class WsgiApplication(HttpBase):
         while bytes_read < length:
             bytes_to_read = min(self.block_length, length - bytes_read)
 
-            if bytes_to_read + bytes_read > self.max_content_length:
+            if (self.max_content_length  # @andviro
+                    and bytes_to_read + bytes_read > self.max_content_length):
                 raise RequestTooLongError()
 
             data = istream.read(bytes_to_read)
